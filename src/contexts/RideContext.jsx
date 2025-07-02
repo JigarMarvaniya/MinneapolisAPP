@@ -17,7 +17,7 @@ export function RideProvider({ children }) {
 
   const refresh = () => setRides(JSON.parse(localStorage.getItem('rides') || '[]'));
 
-  const bookRide = (customer, from, to) => {
+  const bookRide = (customer, from, to, hasAlcohol = false, hasDog = false) => {
     const newRide = {
       id: Date.now(),
       customer,
@@ -25,6 +25,8 @@ export function RideProvider({ children }) {
       status: 'pending',
       from,
       to,
+      hasAlcohol,
+      hasDog,
       history: [{ ts: Date.now(), status: 'pending' }]
     };
     setRides([...rides, newRide]);

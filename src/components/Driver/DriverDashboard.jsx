@@ -6,9 +6,18 @@ export default function DriverDashboard() {
   const { user } = useAuth();
   const { rides, assignDriver, updateRideStatus, refresh } = useRides();
   const [online, setOnline] = useState(true);
+  const [acceptsAlcohol, setAcceptsAlcohol] = useState(true);
+  const [acceptsDog, setAcceptsDog] = useState(true);
   const [poll, setPoll] = useState(0);
 
-  const pendingRides = rides.filter(r => !r.driver && r.status === 'pending');
+  // Only show rides matching driver preferences
+  const pendingRides = rides.filter(r => 
+    !r.driver &&
+    r.status === 'pending' &&
+    (acceptsAlcohol || !r.hasAlcohol) &&
+    (acceptsDog || !r.hasDog)
+  );
+
   const myRides = rides.filter(r => r.driver && r.driver.username === user.username);
 
   React.useEffect(() => {
@@ -37,6 +46,16 @@ export default function DriverDashboard() {
             <span className="text-sm">{online ? 'Online' : 'Offline'}</span>
           </label>
         </div>
+        <div className="flex gap-4 mt-2 mb-2">
+          <label>
+            <input type="checkbox" checked={acceptsAlcohol} onChange={() => setAcceptsAlcohol(a => !a)} />
+            <span className="ml-1 text-sm">Accept alcohol</span>
+          </label>
+          <label>
+            <input type="checkbox" checked={acceptsDog} onChange={() => setAcceptsDog(d => !d)} />
+            <span className="ml-1 text-sm">Accept pet dog</span>
+          </label>
+        </div>
         {online && (
           <div>
             <h3 className="text-lg font-semibold mb-2">Available Rides</h3>
@@ -45,6 +64,8 @@ export default function DriverDashboard() {
                 <tr>
                   <th className="p-2">From</th>
                   <th className="p-2">To</th>
+                  <th className="p-2">Alcohol</th>
+                  <th className="p-2">Dog</th>
                   <th className="p-2">Action</th>
                 </tr>
               </thead>
@@ -53,6 +74,8 @@ export default function DriverDashboard() {
                   <tr key={ride.id}>
                     <td className="p-2">{ride.from}</td>
                     <td className="p-2">{ride.to}</td>
+                    <td className="p-2">{ride.hasAlcohol ? "Yes" : "No"}</td>
+                    <td className="p-2">{ride.hasDog ? "Yes" : "No"}</td>
                     <td className="p-2">
                       <button onClick={() => handleAccept(ride.id)} className="bg-green-700 text-white px-3 py-1 rounded">
                         Accept
@@ -61,7 +84,7 @@ export default function DriverDashboard() {
                   </tr>
                 ))}
                 {!pendingRides.length && (
-                  <tr><td colSpan={3} className="text-center p-3">No available rides.</td></tr>
+                  <tr><td colSpan={5} className="text-center p-3">No available rides.</td></tr>
                 )}
               </tbody>
             </table>

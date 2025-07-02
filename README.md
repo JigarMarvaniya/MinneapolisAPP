@@ -1,6 +1,7 @@
-# Minneapolis Cab App
+# Harmony Ride
 
 A demo MVP cab booking app with full customer/driver flows for Minneapolis, built with React, Vite, and Tailwind CSS.
+
 
 ## Usage
 
