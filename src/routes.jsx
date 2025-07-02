@@ -5,6 +5,7 @@ import Login from './components/Auth/Login';
 import Signup from './components/Auth/Signup';
 import CustomerDashboard from './components/Customer/CustomerDashboard';
 import DriverDashboard from './components/Driver/DriverDashboard';
+import ProfilePage from './components/Profile/ProfilePage';
 
 export default function AppRoutes() {
   const { user } = useAuth();
@@ -22,6 +23,7 @@ export default function AppRoutes() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/customer" element={user && user.type === 'customer' ? <CustomerDashboard /> : <Navigate to="/login" />} />
       <Route path="/driver" element={user && user.type === 'driver' ? <DriverDashboard /> : <Navigate to="/login" />} />
+      <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/login" />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

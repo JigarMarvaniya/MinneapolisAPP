@@ -14,6 +14,9 @@ export default function Navbar() {
         {user ? (
           <>
             <span className="mr-4 capitalize font-semibold">{user.type}: {user.username}</span>
+            <Link to="/profile" className="bg-white text-yellow-700 px-3 py-1 rounded shadow hover:bg-yellow-100 font-bold mr-3">
+              Profile
+            </Link>
             <button onClick={logout} className="bg-black text-yellow-400 px-3 py-1 rounded shadow hover:bg-gray-800 hover:text-white">
               Logout
             </button>
