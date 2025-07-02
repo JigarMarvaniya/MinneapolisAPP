@@ -1,3 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: 'Montserrat', Arial, sans-serif;
+  /* Optional: Add a light cab stripe effect */
+  background: repeating-linear-gradient(
+    135deg,
+    #fffbe6,
+    #fffbe6 8px,
+    #fff 8px,
+    #fff 24px
+  );
+}
